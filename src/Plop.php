@@ -38,7 +38,7 @@ class Plop
      *
      * @param mixed $options If a number is used, it is the maximum depth.
      */
-    public static function p($value, $options=array())
+    public static function d($value, $options=array())
     {
         if (is_numeric($options)) {
             $options = array('depth' => $options);
@@ -79,12 +79,6 @@ class Plop
 
     private function delve($subject)
     {
-        // Guard
-        if ($this->level > $this->depth) {
-            $this->result[] = "Nested Element\n";
-            return;
-        }
-
         $this->level++;
 
         if (is_object($subject)) {
@@ -113,6 +107,13 @@ class Plop
 
     private function delveObject($subject)
     {
+
+        // Depth Guard
+        if ($this->level > $this->depth) {
+            $this->result[] = "Nested ".get_class($subject)." Object\n";
+            return;
+        }
+
         $this->result[] = get_class($subject) . " Object (\n";
         $subject = (array) $subject;
 
@@ -128,6 +129,12 @@ class Plop
 
     private function delveArray($subject)
     {
+        // Depth Guard
+        if ($this->level > $this->depth) {
+            $this->result[] = "Nested Array\n";
+            return;
+        }
+
         $this->result[] = "Array (\n";
 
         foreach ($subject as $key => $val) {
