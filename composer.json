@@ -1,0 +1,17 @@
+{
+    "name": "jacobstr/plop",
+    "description": "Like print_r, but depth limited and cyclic dependency safe.",
+    "license" : "MIT",
+    "authors": [
+        {
+            "name": "jacobstr",
+            "email": "jacobstr@gmail.com"
+        }
+    ],
+    "require": {
+
+    },
+    "autoload": {
+        "psr-0": { "Plop": "src" }
+    }
+}
