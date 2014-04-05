@@ -38,7 +38,7 @@ class Plop
      *
      * @param mixed $options If a number is used, it is the maximum depth.
      */
-    public static function p($value, $options)
+    public static function p($value, $options=array())
     {
         if (is_numeric($options)) {
             $options = array('depth' => $options);
@@ -113,7 +113,7 @@ class Plop
 
     private function delveObject($subject)
     {
-        $this->result[] = get_class($subject) . " Object ( \n";
+        $this->result[] = get_class($subject) . " Object (\n";
         $subject = (array) $subject;
 
         foreach ($subject as $key => $val) {
@@ -128,7 +128,7 @@ class Plop
 
     private function delveArray($subject)
     {
-        $this->result[] = "Array ( \n";
+        $this->result[] = "Array (\n";
 
         foreach ($subject as $key => $val) {
             if ($this->isIgnoredKey($key) === false) {
