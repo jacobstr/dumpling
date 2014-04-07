@@ -1,6 +1,6 @@
 Dumpling
 --------
-A small utility for generating variable dumps. PHP's built-in print_r goes'
+A small utility for generating variable dumps. PHP's built-in print_r goes
 haywire when using complex object graphs. It also outputs directly to stdout by
 default.
 
