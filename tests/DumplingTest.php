@@ -1,7 +1,7 @@
 <?php
-namespace Plop\Tests;
+namespace Dumpling\Tests;
 
-use Plop\Plop as P;
+use Dumpling\Dumpling;
 
 class Point
 {
@@ -15,14 +15,14 @@ class Line
     public $points;
 }
 
-class PlopTest extends \PHPUnit_Framework_TestCase
+class DumplingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
      */
     public function should_dump_an_array()
     {
-        $actual = P::d(array("hello"=>"world"));
+        $actual = Dumpling::d(array("hello"=>"world"));
         $expected = <<<EOD
 Array (
     [hello] => world
@@ -40,9 +40,9 @@ EOD;
         $point->x = 5;
         $point->y = 10;
 
-        $actual = P::d($point);
+        $actual = Dumpling::d($point);
         $expected = <<<EOD
-Plop\Tests\Point Object (
+Dumpling\Tests\Point Object (
     [x] => 5
     [y] => 10
     [line] => (null)
@@ -66,14 +66,14 @@ EOD;
 
         $point->line = $line;
 
-        $actual = P::d($line);
+        $actual = Dumpling::d($line);
         $expected = <<<EOD
-Plop\Tests\Line Object (
+Dumpling\Tests\Line Object (
     [points] => Array (
-        [0] => Plop\Tests\Point Object (
+        [0] => Dumpling\Tests\Point Object (
             [x] => 5
             [y] => 10
-            [line] => Nested Plop\Tests\Line Object
+            [line] => Nested Dumpling\Tests\Line Object
         )
     )
 )
@@ -96,15 +96,17 @@ EOD;
 
         $point->line = $line;
 
-        $actual = P::d($line, 2);
+        $actual = Dumpling::d($line, 2);
         $expected = <<<EOD
-Plop\Tests\Line Object (
+Dumpling\Tests\Line Object (
     [points] => Array (
-        [0] => Nested Plop\Tests\Point Object
+        [0] => Nested Dumpling\Tests\Point Object
     )
 )
 EOD;
 
         $this->assertEquals($expected, $actual);
+
+        echo Dumpling::d(debug_backtrace(),2);
     }
 }

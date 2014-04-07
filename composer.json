@@ -1,5 +1,5 @@
 {
-    "name": "jacobstr/plop",
+    "name": "jacobstr/dumpling",
     "description": "Like print_r, but depth limited and cyclic dependency safe.",
     "license" : "MIT",
     "version"  : "0.1",
@@ -16,6 +16,6 @@
         "phpunit/phpunit" : "3.7.*"
     },
     "autoload": {
-        "psr-4": { "Plop\\": "src" }
+        "psr-4": { "Dumpling\\": "src" }
     }
 }

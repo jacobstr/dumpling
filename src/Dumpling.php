@@ -1,6 +1,6 @@
-<?php namespace Plop;
+<?php namespace Dumpling;
 
-class Plop
+class Dumpling
 {
     // Stateful variables populated during a dump.
     protected $stack = array();
@@ -45,7 +45,7 @@ class Plop
         } elseif (empty($options)) {
             $options = array();
         }
-        $plop = new Plop($options);
+        $plop = new Dumpling($options);
         return $plop->dump($value);
     }
 
