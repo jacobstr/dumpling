@@ -13,12 +13,12 @@ Dumpling
 ```
 >> echo Dumpling::d($cyclical_line_point_object);
 
-Plop\Tests\Line Object (
+Dumpling\Tests\Line Object (
     [points] => Array (
-        [0] => Plop\Tests\Point Object (
+        [0] => Dumpling\Tests\Point Object (
             [x] => 5
             [y] => 10
-            [line] => Nested Plop\Tests\Line Object
+            [line] => Nested Dumpling\Tests\Line Object
         )
     )
 )
@@ -43,4 +43,11 @@ Array (
         [args] => Nested Array
     )
 )
+```
+
+Tests
+-----
+```
+composer install
+vendor/bin/phpunit tests/DumplingTest.php
 ```
