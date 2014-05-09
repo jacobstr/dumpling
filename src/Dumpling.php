@@ -1,5 +1,8 @@
 <?php namespace Dumpling;
 
+use Closure;
+use ReflectionFunction;
+
 class Dumpling
 {
     // Stateful variables populated during a dump.
@@ -81,7 +84,9 @@ class Dumpling
     {
         $this->level++;
 
-        if (is_object($subject)) {
+        if ($subject instanceof Closure) {
+            $this->inspectClosure($subject);
+        } elseif (is_object($subject)) {
             $this->inspectObject($subject);
         } elseif (is_array($subject)) {
             $this->inspectArray($subject);
@@ -107,7 +112,6 @@ class Dumpling
 
     private function inspectObject($subject)
     {
-
         // Depth Guard
         if ($this->level > $this->depth) {
             $this->result[] = "Nested ".get_class($subject)." Object\n";
@@ -115,7 +119,6 @@ class Dumpling
         }
 
         $this->result[] = get_class($subject) . " Object (\n";
-        $subject = (array) $subject;
 
         foreach ($subject as $key => $val) {
             if ($this->isIgnoredKey($key) === false) {
@@ -145,5 +148,37 @@ class Dumpling
         }
 
         $this->result[] = str_repeat(" ", ($this->level - 1) * 4) . ")\n";
+    }
+
+    /**
+     * Inspired by: http://www.metashock.de/2013/05/dump-source-code-of-closure-in-php/
+     */
+    private function inspectClosure($subject)
+    {
+        $reflection = new ReflectionFunction($subject);
+        $body_string = implode("", array_slice(
+            file($reflection->getFileName()),
+            $reflection->getStartLine() - 1,
+            $reflection->getEndLine() - $reflection->getStartLine() + 1
+        ));
+
+        $start = strpos($body_string, 'function');
+        if ($start === false) {
+            $this->result[] = 'Closure';
+        } else {
+            $level = 0;
+            // Parse out the content between the first pair of matching parens
+            // after the function keyword.
+            for ($i = $start; $i < strlen($body_string); $i++) {
+                if ($body_string[$i] == '{') {
+                    $level++;
+                } elseif ($body_string[$i] == '}') {
+                    if (--$level === 0) {
+                        break;
+                    }
+                }
+            }
+            $this->result[] = str_repeat(' ', $start).substr($body_string, $start, $i - $start + 1);
+        }
     }
 }

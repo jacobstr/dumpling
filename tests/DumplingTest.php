@@ -106,7 +106,28 @@ Dumpling\Tests\Line Object (
 EOD;
 
         $this->assertEquals($expected, $actual);
+    }
 
-        echo Dumpling::D(debug_backtrace(), 2);
+    /**
+     * @test
+     */
+    public function should_dump_a_closure()
+    {
+        if(true && $fn = function(
+            $a,
+            $b = 0
+        ) {
+            // MATH!
+            return $a + 1;
+        }) {
+
+        };
+
+        $actual = Dumpling::D($fn, 2);
+        $expected = <<<EOD
+EOD;
+
+        $this->assertRegExp('/.*function.*return \$a \+ 1.*/s', $actual);
+
     }
 }
