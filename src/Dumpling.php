@@ -120,6 +120,8 @@ class Dumpling
 
         $this->result[] = get_class($subject) . " Object (\n";
 
+        $subject = (array) $subject;
+
         foreach ($subject as $key => $val) {
             if ($this->isIgnoredKey($key) === false) {
                 $this->result[] = $this->formatKey($key);
