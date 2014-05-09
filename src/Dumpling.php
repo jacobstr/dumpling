@@ -28,7 +28,7 @@ class Dumpling
     public function dump($value)
     {
         $this->reset();
-        $this->delve($value);
+        $this->inspect($value);
         $result = rtrim(implode("", $this->result), "\n");
         return $result;
     }
@@ -38,7 +38,7 @@ class Dumpling
      *
      * @param mixed $options If a number is used, it is the maximum depth.
      */
-    public static function d($value, $options=array())
+    public static function D($value, $options=array())
     {
         if (is_numeric($options)) {
             $options = array('depth' => $options);
@@ -77,22 +77,22 @@ class Dumpling
         return implode("", $result);
     }
 
-    private function delve($subject)
+    private function inspect($subject)
     {
         $this->level++;
 
         if (is_object($subject)) {
-            $this->delveObject($subject);
+            $this->inspectObject($subject);
         } elseif (is_array($subject)) {
-            $this->delveArray($subject);
+            $this->inspectArray($subject);
         } else {
-            $this->delvePrimitive($subject);
+            $this->inspectPrimitive($subject);
         }
 
         $this->level--;
     }
 
-    private function delvePrimitive($subject)
+    private function inspectPrimitive($subject)
     {
         if ($subject === true) {
             $subject = '(bool)true';
@@ -105,7 +105,7 @@ class Dumpling
         $this->result[] = $subject . "\n";
     }
 
-    private function delveObject($subject)
+    private function inspectObject($subject)
     {
 
         // Depth Guard
@@ -120,14 +120,14 @@ class Dumpling
         foreach ($subject as $key => $val) {
             if ($this->isIgnoredKey($key) === false) {
                 $this->result[] = $this->formatKey($key);
-                $this->delve($val);
+                $this->inspect($val);
             }
         }
 
         $this->result[] = str_repeat(" ", ($this->level - 1) * 4) . ")\n";
     }
 
-    private function delveArray($subject)
+    private function inspectArray($subject)
     {
         // Depth Guard
         if ($this->level > $this->depth) {
@@ -140,7 +140,7 @@ class Dumpling
         foreach ($subject as $key => $val) {
             if ($this->isIgnoredKey($key) === false) {
                 $this->result[] = str_repeat(" ", $this->level * 4) . '[' . $key . '] => ';
-                $this->delve($val);
+                $this->inspect($val);
             }
         }
 

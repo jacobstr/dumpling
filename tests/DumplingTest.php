@@ -22,7 +22,7 @@ class DumplingTest extends \PHPUnit_Framework_TestCase
      */
     public function should_dump_an_array()
     {
-        $actual = Dumpling::d(array("hello"=>"world"));
+        $actual = Dumpling::D(array("hello"=>"world"));
         $expected = <<<EOD
 Array (
     [hello] => world
@@ -40,7 +40,7 @@ EOD;
         $point->x = 5;
         $point->y = 10;
 
-        $actual = Dumpling::d($point);
+        $actual = Dumpling::D($point);
         $expected = <<<EOD
 Dumpling\Tests\Point Object (
     [x] => 5
@@ -66,7 +66,7 @@ EOD;
 
         $point->line = $line;
 
-        $actual = Dumpling::d($line);
+        $actual = Dumpling::D($line);
         $expected = <<<EOD
 Dumpling\Tests\Line Object (
     [points] => Array (
@@ -96,7 +96,7 @@ EOD;
 
         $point->line = $line;
 
-        $actual = Dumpling::d($line, 2);
+        $actual = Dumpling::D($line, 2);
         $expected = <<<EOD
 Dumpling\Tests\Line Object (
     [points] => Array (
@@ -107,6 +107,6 @@ EOD;
 
         $this->assertEquals($expected, $actual);
 
-        echo Dumpling::d(debug_backtrace(),2);
+        echo Dumpling::D(debug_backtrace(), 2);
     }
 }

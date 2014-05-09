@@ -1,6 +1,6 @@
 {
     "name": "jacobstr/dumpling",
-    "description": "Like print_r, but depth limited and cyclic dependency safe.",
+    "description": "Like print_r, but depth limited and cyclic reference safe.",
     "license" : "MIT",
     "authors" : [
         {
