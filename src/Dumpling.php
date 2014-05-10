@@ -158,29 +158,9 @@ class Dumpling
     private function inspectClosure($subject)
     {
         $reflection = new ReflectionFunction($subject);
-        $body_string = implode("", array_slice(
-            file($reflection->getFileName()),
-            $reflection->getStartLine() - 1,
-            $reflection->getEndLine() - $reflection->getStartLine() + 1
-        ));
-
-        $start = strpos($body_string, 'function');
-        if ($start === false) {
-            $this->result[] = 'Closure';
-        } else {
-            $level = 0;
-            // Parse out the content between the first pair of matching parens
-            // after the function keyword.
-            for ($i = $start; $i < strlen($body_string); $i++) {
-                if ($body_string[$i] == '{') {
-                    $level++;
-                } elseif ($body_string[$i] == '}') {
-                    if (--$level === 0) {
-                        break;
-                    }
-                }
-            }
-            $this->result[] = str_repeat(' ', $start).substr($body_string, $start, $i - $start + 1);
-        }
+        $params = array_map(function($param) {
+            return ($param->isPassedByReference() ? '&$' : '$').$param->name;
+        }, $reflection->getParameters());
+        $this->result[] = 'Closure ('.implode(", ", $params).') { ... }'."\n";
     }
 }

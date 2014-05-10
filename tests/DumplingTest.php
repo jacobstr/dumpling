@@ -114,7 +114,7 @@ EOD;
     public function should_dump_a_closure()
     {
         if(true && $fn = function(
-            $a,
+            &$a,
             $b = 0
         ) {
             // MATH!
@@ -127,7 +127,7 @@ EOD;
         $expected = <<<EOD
 EOD;
 
-        $this->assertRegExp('/.*function.*return \$a \+ 1.*/s', $actual);
+        $this->assertEquals('Closure (&$a, $b) { ... }', $actual);
 
     }
 }
